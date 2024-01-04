@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
-const authenticate = require("./src/middlewares/authenticate.js");
+const { authenticate, checkRole } = require("./src/middlewares/authenticate"); // Asegúrate de tener el middleware de verificación de roles
 const crypto = require("crypto");
 
 require("dotenv").config();
@@ -36,7 +36,29 @@ app.use("/api/user", authenticate, require("./src/routes/user"));
 app.use("/api/signout", require("./src/routes/signout"));
 app.use("/api/todos", authenticate, require("./src/routes/todos"));
 app.use("/api/refresh-token", require("./src/routes/refreshToken"));
-app.use("api/parqueadero" ,require("./src/routes/parqueaderos"));
+
+// Middleware de verificación de roles
+const checkAdmin = checkRole('administrador');
+const checkCliente = checkRole('cliente');
+
+// Definición de rutas protegidas
+const protectedRoutes = express.Router();
+
+// Ruta protegida para administradores
+protectedRoutes.get('/admin-route', authenticate, checkAdmin, (req, res) => {
+    // Lógica específica para administradores
+    res.json({ message: 'Acceso permitido para administradores.' });
+});
+
+// Ruta protegida para clientes
+protectedRoutes.get('/client-route', authenticate, checkCliente, (req, res) => {
+    // Lógica específica para clientes
+    res.json({ message: 'Acceso permitido para clientes.' });
+});
+
+// Uso de las rutas protegidas
+app.use('/api/protected', protectedRoutes);
+
 app.get("/", (req, res) => {
     res.send("hello world");
 });

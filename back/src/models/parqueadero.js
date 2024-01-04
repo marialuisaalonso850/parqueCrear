@@ -1,24 +1,23 @@
+import mongoose from "mongoose";
 
-const mongoose = require("mongoose");
-
-
-const Token = require("./token")
-const ParqueaderoSchema = new mongoose.Schema({
-    id: { type: Object },
-    nombre: { type: String, required: true, unique: true },
-    altura: { type: String, required: true },
-    longitud: { type: String, required: true },
+const postSchema = new mongoose.Schema({
+ 
+  title: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  longitud: { // Corregido el nombre del campo de longuitud a longitud
+    type: Number,
+    required: true,
+  },
+  latitud: { // Corregido el nombre del campo de latitud
+    type: Number,
+    required: true,
+  }
 });
 
-
-
-
-
-ParqueaderoSchema.statics.ParqueaderoExist = async function (nombre) {
-    const result = await this.find({ nombre });
-    return result.length > 0;
-};
-
-const Parqueadero = mongoose.model("Parqueadero", ParqueaderoSchema);
-
-module.exports = Parqueadero;
+export const Post = mongoose.model("Post", postSchema);

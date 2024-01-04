@@ -1,70 +1,78 @@
-import React, { useContext } from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Login from './routes/Login'
-import Signup from './routes/signup'
-import Dashboard from './routes/dashboard'
-import ProtectedRoute from './routes/protectedRaute'
-import { AuthProvider } from './Autenticacion/AutProvider'
-import Home from './routes/Home'
-import Perfil from './routes/perfil'
-import ContactUs from './routes/contactUs'
-import Parqueadero from './routes/parqueadero'
-import InfoParqueadero from './routes/infoParqueadero'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Login from './routes/Login';
+import Signup from './routes/signup';
+import Dashboard from './routes/dashboard';
+import ProtectedRoute from './routes/protectedRaute';
+import { AuthProvider } from './Autenticacion/AutProvider';
+import Home from './routes/Home';
+import Perfil from './routes/perfil';
+import ContactUs from './routes/contactUs';
+import InfoParqueadero from './routes/infoParqueadero';
+import Post from './routes/post';
+import { PostInfo } from './routes/postInfo';
+import Posts from './routes/post';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Login/>
+    path: '/',
+    element: <Login />,
+  },
+ 
+  {
+    path: '/signup',
+    element: <Signup />,
   },
   {
-    path: "/signup",
-    element: <Signup/>
+    path: '/postinfo',
+    element: <PostInfo />,
   },
   {
-    path: "/Home",
-    element: <Home/>
+    path: '/Postcar',
+    element: <Posts />,
   },
   {
-    path: "/Perfil",
-    element: <Perfil/>
+    path: '/Home',
+    element: <Home />,
   },
   {
-    path: "/infoParqueadero",
-    element: <InfoParqueadero/>
+    path: '/Perfil',
+    element: <Perfil />,
   },
   {
-    path: "/ContactUs",
-    element: <ContactUs/>
+    path: '/infoParqueadero',
+    element: <InfoParqueadero />,
   },
   {
-    path: "/parqueadero",
-    element: <Parqueadero/>
+    path: '/ContactUs',
+    element: <ContactUs />,
   },
   {
-    path: "/",
-    element: <Signup/>
+    path: '/parqueadero',
+    element: <Post />,
   },
   {
-    path: "/",
-    element: <ProtectedRoute/>,
-    children:[
+    path: '/',
+    element: <Signup />,
+  },
+  {
+    path: '/',
+    element: <ProtectedRoute />,
+    children: [
       {
-        path: "/Dashboard",
-        element: <Dashboard/>
-      }
-      
-    ]
+        path: '/Dashboard',
+        element: <Dashboard />,
+      },
+    ],
   },
-])
+]);
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </AuthProvider>
   </React.StrictMode>,
-)
-
-
+);

@@ -1,10 +1,75 @@
-const { jsonResponse } = require("../controllers/jsonResponse");
+import express from "express";
+import { Post } from "../models/post.js";
 
-const router = require("express").Router();
+const router = express.Router();
 
-router.get("/parqueadero",(req, res)=>{
-    res.status(200).json(jsonResponse(200, req.user))
+// Creating posts
+router.post("/", async (req, res) => {
+  try {
+    const post = new Post({
+      title: req.body.title,
+      content: req.body.content,
+      longitud: req.body.longitud,
+      latitud: req.body.latitud,
+    });
+    await post.save();
 
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
-module.exports = router;
+// Get all posts
+router.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.send(posts);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Update a post by id
+router.put("/:id", async (req, res) => {
+  try {
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {  
+        title: req.body.title, 
+        content: req.body.content,
+        longitud: req.body.longitud,
+        latitud: req.body.latitud,
+      },
+      { new: true }
+    );
+    if (!post) return res.status(404).send("Post not found");
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Get a single post by id
+router.get("/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).send("Post not found");
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Deleting a post by id
+router.delete("/:id", async (req, res) => {
+  try {
+    const post = await Post.findByIdAndRemove(req.params.id);
+    if (!post) return res.status(404).send("Post not found");
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+export default router;

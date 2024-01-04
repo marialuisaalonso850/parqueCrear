@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const password1="multiservicios1234"
-const password="blrwvisduvlidddo"
-const correo="MultiServiciosEnAmerica@gmail.com"
+const password="rwam fpkv zevq bnmn"
+const correo="parkinlocation753@gmail.com"
 // Configura el transporte de Nodemailer
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com", // O el servicio de correo que uses
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 async function sendConfirmationEmail(email) {
   try {
     await transporter.sendMail({
-      from: "MultiServiciosEnAmerica@gmail.com",
+      from: "parkinlocation753@gmail.com",
       to: email,
       subject: "Confirmación de Registro",
       text: "¡Gracias por registrarte!",

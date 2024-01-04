@@ -16,6 +16,11 @@ exports.authenticateUser = async (req, res) => {
             const correctPassword = await user.comparePassword(password, user.password);
 
             if (correctPassword) {
+                if (user.roles.includes('admin')) {
+                    // Es un administrador
+                    // Realizar acciones específicas para administradores si es necesario
+                }
+
                 const accessToken = user.createAccessToken();
                 const refreshToken = await user.createRefreshToken();
 
