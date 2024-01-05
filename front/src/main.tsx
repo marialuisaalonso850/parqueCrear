@@ -11,9 +11,9 @@ import Home from './routes/Home';
 import Perfil from './routes/perfil';
 import ContactUs from './routes/contactUs';
 import InfoParqueadero from './routes/infoParqueadero';
-import Post from './routes/post';
+import Post from './routes/Posts';
 import { PostInfo } from './routes/postInfo';
-import Posts from './routes/post';
+import Posts from './routes/Posts';
 
 const router = createBrowserRouter([
   {

@@ -9,7 +9,7 @@ import React from "react";
 
 export default function Login() {
 
-  const [username, setUsername] = useState("");
+  const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorResponse, setErrorResponse] = useState("")
   const auth = useAuth();
@@ -25,7 +25,7 @@ export default function Login() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username,
+          gmail,
           password
         })
       })
@@ -42,7 +42,6 @@ export default function Login() {
           goto("/dashboard")
 
         }
-
 
       } else {
         console.log("algo malo acurrió :o");
@@ -74,8 +73,8 @@ export default function Login() {
               <label>Email</label>
               <input
                 type="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}></input>
+                value={gmail}
+                onChange={(e) => setGmail(e.target.value)}></input>
               <label>password</label>
               <input
                 type="password"

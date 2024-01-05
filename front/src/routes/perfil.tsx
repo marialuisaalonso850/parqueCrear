@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PortalLayout from '../layout/PortalLayout';
-import '../routes/contac.css'
+// import '../routes/contac.css'
 import { useAuth } from "../Autenticacion/AutProvider"
 
 function MiComponente() {

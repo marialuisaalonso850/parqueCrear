@@ -1,14 +1,13 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../Autenticacion/AutProvider";
-
 import React, { useState } from "react"
 import DefaultLayout from "../layout/DefaultLayout"
 import { API_URL } from "../Autenticacion/constanst";
 import type { AuthResponseError } from "../types/types";
 
 export default function Signup() {
-  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [gmail, setGmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorResponse, setErrorResponse] = useState("")
 
@@ -24,8 +23,8 @@ export default function Signup() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name,
           username,
+          gmail,
           password
         })
       })
@@ -63,9 +62,9 @@ export default function Signup() {
               <h1>Signup</h1>
               {!!errorResponse && <div className="errorMessage">{errorResponse}</div>}
               <label>Nombre</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)}></input>
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}></input>
               <label>Email</label>
-              <input type="email" value={username} onChange={(e) => setUsername(e.target.value)}></input>
+              <input type="email" value={gmail} onChange={(e) => setGmail(e.target.value)}></input>
               <label>password</label>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
               <button>Create Usuario</button>

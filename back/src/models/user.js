@@ -1,55 +1,72 @@
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const Mongoose = require("mongoose");
-const { generateAccessToken, generateRefreshToken } = require("../services/generateTokens");
+const {
+  generateAccessToken,
+  generateRefreshToken
+} = require("../services/generateTokens");
 const getUserInfo = require("../models/getUserInfo");
 const Token = require("../models/token");
 
-const UserSchema = new Mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    name: { type: String, required: true },
-    roles: [{ type: String, enum: ['administrador', 'cliente'], default: ['cliente'] }],
-
-    confirmed: { type: Boolean, default: false },
+const UserSchema = new mongoose.Schema({
+  gmail: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  username: { type: String, required: true },
+  rol: { type: [String], default: ["cliente"] }
 });
 
-UserSchema.pre("save", async function (next) {
-    if (this.isModified("password") || this.isNew) {
-        try {
-            const hash = await bcrypt.hash(this.password, 10);
-            this.password = hash;
-            next();
-        } catch (error) {
-            return next(error);
-        }
-    } else {
-        next();
-    }
+
+UserSchema.path("gmail").validate({
+  validator: async function (value) {
+    const count = await this.model("User").countDocuments({ gmail: value });
+    return count === 0;
+  },
+  message: "El nombre de usuario ya está en uso",
 });
 
-UserSchema.methods.usernameExist = async function (username) {
-    const result = await this.constructor.find({ username });
-    return result.length > 0;
-};
+// Hash the password before saving or updating
+UserSchema.pre("save", function (next) {
+  if (this.isModified("password") || this.isNew) {
+    const document = this;
 
-UserSchema.methods.comparePassword = async function (password) {
-    const same = await bcrypt.compare(password, this.password);
+    bcrypt.hash(document.password, 10, (err, hash) => {
+      if (err) {
+        return next(err);
+      }
+      document.password = hash;
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+// Compare a password with the hashed password stored in the database
+UserSchema.methods.comparePassword = async function (password, hash) {
+  try {
+    const same = await bcrypt.compare(password, hash);
     return same;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
+
 
 UserSchema.methods.createAccessToken = function () {
-    return generateAccessToken(getUserInfo(this));
+  return generateAccessToken(getUserInfo(this));
 };
 
+// Create a refresh token for the user and store it in the database
 UserSchema.methods.createRefreshToken = async function () {
-    const refreshToken = generateRefreshToken(getUserInfo(this));
-    try {
-        await new Token({ token: refreshToken }).save();
-        return refreshToken;
-    } catch (error) {
-        console.error(error);
-        throw error; // Rethrow the error to be caught by the caller
-    }
+  const refreshToken = generateRefreshToken(getUserInfo(this));
+  try {
+    await new Token({ token: refreshToken }).save();
+    return refreshToken;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
-module.exports = Mongoose.model("User", UserSchema);
+// Export the User model
+module.exports = mongoose.model("User", UserSchema);

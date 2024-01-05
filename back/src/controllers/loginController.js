@@ -3,20 +3,20 @@ const User = require('../models/user');
 const getUserInfo = require('../models/getUserInfo');
 
 exports.authenticateUser = async (req, res) => {
-    const { username, password } = req.body;
+    const { gmail, password } = req.body;
 
-    if (!username || !password) {
+    if (!gmail || !password) {
         return res.status(400).json(jsonResponse(400, { error: 'Nombre de usuario y contraseña son requeridos.' }));
     }
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ gmail });
 
         if (user) {
             const correctPassword = await user.comparePassword(password, user.password);
 
             if (correctPassword) {
-                if (user.roles.includes('admin')) {
+                if (user.rol.includes('admin')) {
                     // Es un administrador
                     // Realizar acciones específicas para administradores si es necesario
                 }

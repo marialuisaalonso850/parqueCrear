@@ -3,12 +3,12 @@ const { jsonResponse } = require('./jsonResponse');
 const sendConfirmationEmail = require('../routes/correos');
 
 exports.createUser = async (req, res) => {
-    const { username, name, password, role } = req.body; // Asegúrate de que 'role' esté presente en req.body
+    const { gmail, username, password, role } = req.body; // Asegúrate de que 'role' esté presente en req.body
 
     // Verificar que username sea un correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(username)) {
-        return res.status(400).json(jsonResponse(400, { error: 'El nombre de usuario debe ser un correo válido.' }));
+    if (!emailRegex.test(gmail)) {
+        return res.status(400).json(jsonResponse(400, { error: 'El correo válido.' }));
     }
 
     // Verificar que el password tenga al menos 8 caracteres, un número y una mayúscula
@@ -18,15 +18,15 @@ exports.createUser = async (req, res) => {
     }
 
     try {
-        const exists = await User.findOne({ username });
+        const exists = await User.findOne({ gmail });
 
         if (exists) {
             return res.status(400).json(jsonResponse(400, { error: 'El nombre de usuario ya existe.' }));
         }
 
-        const newUser = new User({ username, name, password, roles: [role || 'cliente'] });
+        const newUser = new User({ gmail, username, password, roles: [role || 'cliente'] });
         await newUser.save();
-        sendConfirmationEmail(username);
+        sendConfirmationEmail(gmail);
 
         res.status(200).json(jsonResponse(200, { message: 'Usuario creado.' }));
     } catch (error) {

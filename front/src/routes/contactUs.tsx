@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import DefaultLayout from "../layout/DefaultLayout";
 import emailjs from '@emailjs/browser';
-import '../routes/contac.css'
+// import '../routes/contac.css'
 import { Col, Row, Alert } from "react-bootstrap";
 
 
