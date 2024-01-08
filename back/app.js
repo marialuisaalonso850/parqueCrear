@@ -15,12 +15,10 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Genera tokens secretos aleatorios
 const generateTokenSecret = () => {
     return crypto.randomBytes(64).toString("hex");
 };
 
-// Guarda los tokens secretos en variables de entorno
 process.env.ACCESS_TOKEN_SECRET = generateTokenSecret();
 process.env.REFRESH_TOKEN_SECRET = generateTokenSecret();
 
@@ -40,7 +38,7 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-// Rutas de la aplicación
+
 app.use("/api/signup", require("./src/routes/signup"));
 app.use("/api/login", require("./src/routes/login"));
 app.use("/api/user", authenticate, require("./src/routes/user"));
@@ -48,26 +46,20 @@ app.use("/api/signout", require("./src/routes/signout"));
 app.use("/api/todos", authenticate, require("./src/routes/todos"));
 app.use("/api/refresh-token", require("./src/routes/refreshToken"));
 
-// Middleware de verificación de roles
 const checkAdmin = checkRole('administrador');
 const checkCliente = checkRole('cliente');
 
-// Definición de rutas protegidas
+
 const protectedRoutes = express.Router();
 
-// Ruta protegida para administradores
 protectedRoutes.get('/admin-route', authenticate, checkAdmin, (req, res) => {
-    // Lógica específica para administradores
     res.json({ message: 'Acceso permitido para administradores.' });
 });
 
-// Ruta protegida para clientes
 protectedRoutes.get('/client-route', authenticate, checkCliente, (req, res) => {
-    // Lógica específica para clientes
     res.json({ message: 'Acceso permitido para clientes.' });
 });
 
-// Uso de las rutas protegidas
 app.use('/api/protected', protectedRoutes);
 
 app.get("/", (req, res) => {

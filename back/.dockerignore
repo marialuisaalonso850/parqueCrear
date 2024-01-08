@@ -1,2 +1,2 @@
+# .dockerignore
 docker-compose.yml
-data/
