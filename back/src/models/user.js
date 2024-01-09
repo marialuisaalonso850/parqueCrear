@@ -11,9 +11,35 @@ const UserSchema = new mongoose.Schema({
   gmail: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   username: { type: String, required: true },
-  rol: { type: [String], default: ["cliente"] }
+  rol: { type: [String], default: ["user"] }
 });
 
+const productSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      unique: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    roles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
 
 UserSchema.path("gmail").validate({
   validator: async function (value) {
@@ -67,6 +93,25 @@ UserSchema.methods.createRefreshToken = async function () {
     throw error;
   }
 };
+
+productSchema.statics.encryptPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
+
+productSchema.statics.comparePassword = async (password, receivedPassword) => {
+  return await bcrypt.compare(password, receivedPassword)
+}
+
+productSchema.pre("save", async function (next) {
+  const user = this;
+  if (!user.isModified("password")) {
+    return next();
+  }
+  const hash = await bcrypt.hash(user.password, 10);
+  user.password = hash;
+  next();
+})
 
 // Export the User model
 module.exports = mongoose.model("User", UserSchema);

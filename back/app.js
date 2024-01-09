@@ -13,6 +13,7 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
+app.set("json spaces", 4);
 app.use(express.urlencoded({ extended: false }));
 
 const generateTokenSecret = () => {
@@ -29,7 +30,7 @@ async function connectToDatabase() {
             // useUnifiedTopology: true,
             // useCreateIndex: true,
         });
-        console.log("Connected to MongoDB :D");
+        console.log("Connected to MongoDB ....");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error.message);
         process.exit(1);
@@ -38,13 +39,14 @@ async function connectToDatabase() {
 
 connectToDatabase();
 
-
 app.use("/api/signup", require("./src/routes/signup"));
 app.use("/api/login", require("./src/routes/login"));
 app.use("/api/user", authenticate, require("./src/routes/user"));
 app.use("/api/signout", require("./src/routes/signout"));
 app.use("/api/todos", authenticate, require("./src/routes/todos"));
 app.use("/api/refresh-token", require("./src/routes/refreshToken"));
+app.use("/api/indexRoutes", require("./src/routes/index.routes"));
+app.use("/api/authRoutes", require("./src/routes/auth.routes"));
 
 const checkAdmin = checkRole('administrador');
 const checkCliente = checkRole('cliente');

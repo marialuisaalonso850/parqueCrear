@@ -24,14 +24,13 @@ router.post("/", async (req, res) => {
 
         await newParqueadero.save();
 
-        // Llama a la función para enviar el correo de confirmación. Asegúrate de implementarla correctamente.
         sendConfirmationEmail(nombre);
 
         res.status(200).json(jsonResponse(200, {
             message: "Parqueadero creado."
         }));
     } catch (error) {
-        console.error(error); // Registra el error en la consola para fines de depuración.
+        console.error(error); 
         res.status(500).json(jsonResponse(500, {
             error: "Error al crear un Parqueadero."
         }));

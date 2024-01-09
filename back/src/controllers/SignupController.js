@@ -21,13 +21,13 @@ exports.createUser = async (req, res) => {
         const exists = await User.findOne({ gmail });
 
         if (exists) {
-            return res.status(400).json(jsonResponse(400, { error: 'El nombre de usuario ya existe.' }));
+            return res.status(400).json(jsonResponse(400, { error: 'El nombre de gmail ya existe.' }));
         }
 
-        const newUser = new User({ gmail, username, password, roles: [role || 'cliente'] });
-        await newUser.save();
-        sendConfirmationEmail(gmail);
-
+        // const newUser = new User({ gmail, username, password, roles: [role || 'cliente'] });
+        // await newUser.save();
+        // sendConfirmationEmail(gmail);
+        
         res.status(200).json(jsonResponse(200, { message: 'Usuario creado.' }));
     } catch (error) {
         console.error(error);

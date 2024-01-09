@@ -5,7 +5,6 @@ export interface AuthResponse{
         accessToken: string;
         refreshToken: string;
     };
-
 }
 
 export interface AuthResponseError{
@@ -13,7 +12,8 @@ export interface AuthResponseError{
         error: string;
     }
 }
-interface ExtendedAuthContext {
+
+export interface ExtendedAuthContext {
     esAutentico: boolean;
     getAccessToken: () => string;
     saveUser: (userData: AuthResponse) => void;

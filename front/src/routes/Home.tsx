@@ -4,11 +4,6 @@ import React , {useState, useEffect}from "react";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import TrackVisibility from 'react-on-screen';
 
-
-
-
-
-
 export const Home = () => {
 
   const [loopNum, setLoopNum] = useState(0);

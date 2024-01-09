@@ -5,4 +5,5 @@ function getUserInfo(user){
         id: user.id || user._id
     };
 };
+
 module.exports = getUserInfo;

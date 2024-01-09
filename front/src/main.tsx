@@ -11,9 +11,6 @@ import Home from './routes/Home';
 import Perfil from './routes/perfil';
 import ContactUs from './routes/contactUs';
 import InfoParqueadero from './routes/infoParqueadero';
-import Post from './routes/Posts';
-import { PostInfo } from './routes/postInfo';
-import Posts from './routes/Posts';
 
 const router = createBrowserRouter([
   {
@@ -24,14 +21,6 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <Signup />,
-  },
-  {
-    path: '/postinfo',
-    element: <PostInfo />,
-  },
-  {
-    path: '/Postcar',
-    element: <Posts />,
   },
   {
     path: '/Home',
@@ -48,10 +37,6 @@ const router = createBrowserRouter([
   {
     path: '/ContactUs',
     element: <ContactUs />,
-  },
-  {
-    path: '/parqueadero',
-    element: <Post />,
   },
   {
     path: '/',

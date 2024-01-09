@@ -1,84 +1,79 @@
 /* parqueadero.css */
 
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-
-.encabezado-img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  margin-bottom: 20px;
-}
-
-
-.label-hora {
-  display: block;
-  margin-bottom: 10px;
-}
-
-
-.botones {
-  display: flex;
-  gap: 10px;
-}
-
-
-.puestos-disponibles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.puesto {
-  flex: 0 0 calc(33.33% - 20px);
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  padding: 10px;
-  cursor: pointer;
-  position: relative;
-}
-
-.puesto img {
-  width: 100%;
-  height: auto;
-  max-height: 100px;
-  object-fit: cover;
-}
-
-.puesto p {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-}
-
-
-.modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal button {
-  margin-top: 10px;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-}
-
+.heading {
+    font-size: 2rem;
+    text-align: center;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .car-card {
+    position: relative;
+    width: 150px;
+    height: 200px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: height 0.3s ease; /* Añade una transición suave en la altura */
+  }
+  
+  .car-image {
+    width: 80%;
+    height: 50%;
+    object-fit: cover;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    opacity: 0; /* Inicialmente oculta los botones */
+    transition: opacity 0.3s ease; /* Añade una transición suave en la opacidad */
+  }
+  
+  .car-card:hover .button-container {
+    opacity: 1; /* Muestra los botones al pasar el ratón sobre la tarjeta */
+  }
+  
+  .button-container button {
+    padding: 8px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease; /* Añade una transición suave en el color de fondo */
+  }
+  
+  .car-card.ocupado {
+    background-color: red;
+  }
+  
+  .car-card.disponible {
+    background-color: green;
+  }
+  
+  .car-card.reservado {
+    background-color: yellow;
+  }
+  
+  .button-container button.ocupado {
+    background-color: darkred;
+  }
+  
+  .button-container button.disponible {
+    background-color: darkgreen;
+  }
+  
+  .button-container button.reservado {
+    background-color: darkgoldenrod;
+  }
   

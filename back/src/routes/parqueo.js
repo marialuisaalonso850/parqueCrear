@@ -3,7 +3,6 @@ import { Post } from "../models/post.js";
 
 const router = express.Router();
 
-// Creating posts
 router.post("/", async (req, res) => {
   try {
     const post = new Post({
@@ -20,7 +19,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get all posts
 router.get("/", async (req, res) => {
   try {
     const posts = await Post.find();
@@ -30,7 +28,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Update a post by id
 router.put("/:id", async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
@@ -50,7 +47,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Get a single post by id
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -61,7 +57,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Deleting a post by id
 router.delete("/:id", async (req, res) => {
   try {
     const post = await Post.findByIdAndRemove(req.params.id);
