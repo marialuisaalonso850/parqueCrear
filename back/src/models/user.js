@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const {
   generateAccessToken,
   generateRefreshToken
@@ -28,7 +29,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    roles: [
+    rol: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Role",
@@ -95,12 +96,12 @@ UserSchema.methods.createRefreshToken = async function () {
 };
 
 productSchema.statics.encryptPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
-  return await bcrypt.hash(password, salt);
+  const salt = await bcryptjs.genSalt(10);
+  return await bcryptjs.hash(password, salt);
 };
 
 productSchema.statics.comparePassword = async (password, receivedPassword) => {
-  return await bcrypt.compare(password, receivedPassword)
+  return await bcryptjs.compare(password, receivedPassword)
 }
 
 productSchema.pre("save", async function (next) {
@@ -108,7 +109,7 @@ productSchema.pre("save", async function (next) {
   if (!user.isModified("password")) {
     return next();
   }
-  const hash = await bcrypt.hash(user.password, 10);
+  const hash = await bcryptjs.hash(user.password, 10);
   user.password = hash;
   next();
 })

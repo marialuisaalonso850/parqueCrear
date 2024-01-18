@@ -1,15 +1,15 @@
-import jwt from "jsonwebtoken";
-import { SECRET } from "../config.js";
-import User from "../models/User.js";
-import Role from "../models/Role.js";
+const jwt = require("jsonwebtoken");
+// const { SECRET } = require("../../src/controllers/config");
+const User = require("../models/User");
+const Role = require("../models/Role");
 
-export const verifyToken = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   let token = req.headers["x-access-token"];
 
   if (!token) return res.status(403).json({ message: "No token provided" });
 
   try {
-    const decoded = jwt.verify(token, SECRET);
+    const decoded = jwt.verify(token) //SECRET);
     req.userId = decoded.id;
 
     const user = await User.findById(req.userId, { password: 0 });
@@ -21,7 +21,7 @@ export const verifyToken = async (req, res, next) => {
   }
 };
 
-export const isModerator = async (req, res, next) => {
+const isModerator = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
     const roles = await Role.find({ _id: { $in: user.roles } });
@@ -37,7 +37,7 @@ export const isModerator = async (req, res, next) => {
   }
 };
 
-export const isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
     const roles = await Role.find({ _id: { $in: user.roles } });
@@ -55,3 +55,9 @@ export const isAdmin = async (req, res, next) => {
     return res.status(500).send({ message: error });
   }
 };
+
+module.exports = {
+  verifyToken,
+  isModerator,
+  isAdmin
+}

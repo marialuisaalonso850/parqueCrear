@@ -1,4 +1,3 @@
-
 const Todo = require('../models/todo');
 const { jsonResponse } = require('./jsonResponse');
 

@@ -1,8 +1,8 @@
-import Role from "../models/Role.js";
-import User from "../models/User.js";
-import { ADMIN_EMAIL, ADMIN_USERNAME, ADMIN_PASSWORD } from "../config.js";
+const Role = require("../models/Role");
+const User = require("../models/User");
+const { ADMIN_EMAIL, ADMIN_USERNAME, ADMIN_PASSWORD } = require("../../src/controllers/config");
 
-export const createRoles = async () => {
+const createRoles = async () => {
   try {
     // Count Documents
     const count = await Role.estimatedDocumentCount();
@@ -23,7 +23,7 @@ export const createRoles = async () => {
   }
 };
 
-export const createAdmin = async () => {
+const createAdmin = async () => {
   // check for an existing admin user
   const userFound = await User.findOne({ email: ADMIN_EMAIL });
   console.log(userFound);
@@ -42,6 +42,11 @@ export const createAdmin = async () => {
 
   console.log(`new user created: ${newUser.email}`);
 };
+
+module.exports = {
+  createRoles,
+  createAdmin
+}
 
 createRoles();
 createAdmin();

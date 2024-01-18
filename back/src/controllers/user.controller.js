@@ -1,18 +1,18 @@
-import User from "../models/User.js";
-import Role from "../models/Role.js";
+const User =  require("../models/User");
+const Role = require("../models/Role");
 
-export const createUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const { username, email, password, roles } = req.body;
+    const { username, gmail, password, rol } = req.body;
 
     const rolesFound = await Role.find({ name: { $in: roles } });
 
     // creating a new User
     const user = new User({
       username,
-      email,
+      gmail,
       password,
-      roles: rolesFound.map((role) => role._id),
+      rol: rolesFound.map((rol) => rol._id),
     });
 
     // encrypting password
@@ -24,20 +24,26 @@ export const createUser = async (req, res) => {
     return res.status(200).json({
       _id: savedUser._id,
       username: savedUser.username,
-      email: savedUser.email,
-      roles: savedUser.roles,
+      gmail: savedUser.gmail,
+      rol: savedUser.rol,
     });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getUsers = async (req, res) => {
+const getUsers = async (req, res) => {
   const users = await User.find();
   return res.json(users);
 };
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
   const user = await User.findById(req.params.userId);
   return res.json(user);
+};
+
+module.exports = {
+  createUser,
+  getUsers,
+  getUser
 };

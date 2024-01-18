@@ -15,7 +15,7 @@ export const AuthContext = createContext<ExtendedAuthContext>({
   signOut: () => {},
   getParqueadero: () => ({} as parqueadero | undefined),
   createParqueadero: (newParqueadero: parqueadero) => {},
-  roles: [], // Add this line
+  roles: [], 
 });
 
 interface ExtendedAuthContext {
@@ -27,7 +27,7 @@ interface ExtendedAuthContext {
   signOut: () => void;
   getParqueadero: () => parqueadero | undefined;
   createParqueadero: (newParqueadero: parqueadero) => void;
-  roles: string[]; // Add this line
+  roles: string[]; 
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -129,7 +129,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setEsAutentico(true);
 
     // Modificar la línea siguiente para incluir el rol en el objeto del usuario
-    setUser({ ...userInfo, roles: roles || [] });
+    setUser({ ...userInfo, rol: roles || [] });
   }
 
   function getAccessToken() {
@@ -150,7 +150,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       userData.body.user,
       userData.body.accessToken,
       userData.body.refreshToken,
-      userData.body.user.roles || []
+      userData.body.user.rol || []
     );
   }
 

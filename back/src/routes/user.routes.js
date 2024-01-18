@@ -1,7 +1,7 @@
-import { Router } from "express";
-import { createUser } from "../controllers/user.controller.js";
-import { isAdmin, verifyToken } from "../middlewares/authJwt.js";
-import { checkExistingUser } from "../middlewares/verifySignup.js";
+const { Router } = require("express");
+const { createUser } = require("../controllers/user.controller");
+const { isAdmin, verifyToken } = require("../middlewares/authJwt");
+const { checkExistingUser } = require("../middlewares/verifySignup");
 
 const router = Router();
 

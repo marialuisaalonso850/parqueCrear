@@ -21,8 +21,6 @@ const ContactUs = () => {
       .catch(error => console.log(error));
   };
 
-
-
   return (
     <div>
       <DefaultLayout>

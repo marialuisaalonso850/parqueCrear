@@ -30,15 +30,12 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                         <li>
                             <Link to="/dashboard">Login</Link>
                         </li>
-
                     </ul>
                 </nav>
             </header>
             <main>
                 {children}
             </main>
-
         </>
     )
-
 }

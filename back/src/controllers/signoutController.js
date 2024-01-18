@@ -1,4 +1,3 @@
-
 const Token = require('../models/token');
 const { jsonResponse } = require('./jsonResponse');
 const getTokenFromHeader = require('../utils/getTokenFromHeader');
