@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { API_URL } from "../Autenticacion/constanst";
 import PortalLayout from "../layout/PortalLayout";
 import React from "react";
+import Mapa from "../js/Mapa";
+
 
 interface Todo {
   _id: string,
@@ -70,11 +72,13 @@ export default function Dashboard(){
       const data = await response.json();
       setTodos(data);
     } catch (error) {
+      
     }
+    
   }
   return (
     <PortalLayout>
-      <h1 className="uno">Perfil de {auth.getUser()?.username || ""}</h1>
+      <h1 className="uno">Perfil de {auth.getUser()?.name || ""}</h1>
      
       {Array.isArray(todos) ? (
         todos.map((todo) => (
@@ -83,13 +87,9 @@ export default function Dashboard(){
       ) : (
         <p>Bienvenido a la busqueda </p>
       )}
+  
       <div>
-        <iframe
-          title="Contenido HTML"
-          src="./mapa.html"
-          width="100%"
-          height="500px"
-        />
+      <Mapa />
       </div>
     </PortalLayout>
   );

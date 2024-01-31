@@ -1,7 +1,13 @@
+
 import DefaultLayout from "../layout/DefaultLayout";
-import React , {useState, useEffect} from "react";
+import React , {useState, useEffect}from "react";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import TrackVisibility from 'react-on-screen';
+
+
+
+
+
 
 export const Home = () => {
 

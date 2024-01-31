@@ -1,4 +1,5 @@
 // CarCard.js
+
 import React from 'react';
 
 const CarCard = ({ carImage, estado, onEstadoChange }) => {

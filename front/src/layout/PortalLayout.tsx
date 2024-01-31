@@ -32,15 +32,15 @@ export default function PortalLayout({children}: {children:React.ReactNode}){
               <li>
                 <Link to="/Perfil">Perfil</Link>
               </li>
-             
               <li>
                 <Link to="/Dashboard">Mapa navegacion</Link>
               </li>
               <li>
-                <Link to="/parqueadero">Crear Parqueadero</Link>
+                <Link to="/Posts">Crear Parqueadero</Link>
               </li>
+              
               <li>
-                <a href="/" /*onClick={handleSignOut}*/>
+                <a href="#" onClick={handleSignOut}>
                   Salir
                 </a>
               </li>

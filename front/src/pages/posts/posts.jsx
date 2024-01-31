@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, Route, Routes } from "react-router-dom";
 import config from "../../config.json";
 import axios from "axios";
-import "./posts.css";
-import {PostInfo} from "./postsInfo";
+import { Link } from "react-router-dom";
+import {
+  Button,
+} from 'reactstrap';
+//import './Posts.css';
+import Mapa from '../../js/Mapa';
 
 const Posts = () => {
   const navigate = useNavigate();
@@ -26,6 +30,9 @@ const Posts = () => {
   return (
     <div className="posts">
       <div className="container">
+      <Link to="/Dashboard">
+          <Button color="primary">Regresar</Button>
+        </Link>
         <button onClick={() => navigate("/post/new")} className="btn btn-primary mb-4">
           nuevo parqueadero
         </button>
@@ -34,8 +41,9 @@ const Posts = () => {
             <tr>
               <th>Nombre</th>
               <th>Descripcion</th>
-              <th>longitud</th>
               <th>latitud</th>
+              <th>longitud</th>
+              <th>puestos</th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +53,7 @@ const Posts = () => {
                 <td> {post.content} </td>
                 <td> {post.latitud} </td>
                 <td> {post.longitud} </td>
+                <td> {post.puestos} </td>
                 <td>
                   <button
                     onClick={() => navigate(`/post/${post._id}`)}
@@ -61,22 +70,14 @@ const Posts = () => {
                     Delete
                   </button>
                 </td>
-                <td>
-                  <button
-                    onClick={() => window.open(`/post/${post._id}/info`, "_blank")}
-                    className="btn btn-danger"
-                  >
-                    Ver info
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        
+        
       </div>
-      <Routes>
-        <Route path="/post/:id/info" element={<PostInfo />} />
-      </Routes>
+      <Mapa  posts={posts} />
     </div>
   );
 };

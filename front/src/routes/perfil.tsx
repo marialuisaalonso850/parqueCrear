@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PortalLayout from '../layout/PortalLayout';
 // import '../routes/contac.css'
 import { useAuth } from "../Autenticacion/AutProvider"
@@ -50,10 +50,10 @@ function MiComponente() {
           <button onClick={eliminarImagen}>Cambiar imagen</button>
           
         )}
-        <h2>nombre {auth.getUser()?.username || ""}</h2>
+        <h2>nombre {auth.getUser()?.name || ""}</h2>
         <label htmlFor="Apellido">Apellido</label>
         <input type="text" placeholder="Ingrese apellido" />
-        <h2>correo {auth.getUser()?.gmail || ""}</h2>
+        <h2>correo  {auth.getUser()?.username || ""}</h2>
         <label htmlFor="carro">Carro</label>
         <input type="text" placeholder="Ingrese el tipo de carro" />
 
@@ -62,6 +62,7 @@ function MiComponente() {
         <button>Actualizar informacion </button>
       </PortalLayout>
     </div>
+   
   );
 }
 

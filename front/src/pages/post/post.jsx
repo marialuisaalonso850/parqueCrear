@@ -1,8 +1,8 @@
 import config from "../../config.json";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "./post.css";
 import { useParams, useNavigate } from "react-router-dom";
+//import './Post.css';
 const Post = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -11,6 +11,7 @@ const Post = () => {
     content: "",
     longitud: "",
     latitud: "",
+    puestos: "",
   });
 
   useEffect(() => {
@@ -32,13 +33,12 @@ const Post = () => {
     e.preventDefault();
     if (id === "new") {
       await axios.post(config.apiUrl, post);
-      return navigate("/");
+      return navigate("/Posts");
     } else {
       await axios.put(`${config.apiUrl}/${id}`, post);
-      return navigate("/");
+      return navigate("/Posts");
     }
   };
-
   return (
     <div className="post__wrapper">
       <div className="container">
@@ -69,6 +69,13 @@ const Post = () => {
             placeholder="longitud..."
             name="longitud"
             value={post.longitud}
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="puestos..."
+            name="puestos"
+            value={post.puestos}
             onChange={handleChange}
           />
           <button onClick={handleSubmit} className="btn btn-primary">

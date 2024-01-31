@@ -5,6 +5,7 @@ export interface AuthResponse{
         accessToken: string;
         refreshToken: string;
     };
+
 }
 
 export interface AuthResponseError{
@@ -12,8 +13,7 @@ export interface AuthResponseError{
         error: string;
     }
 }
-
-export interface ExtendedAuthContext {
+interface ExtendedAuthContext {
     esAutentico: boolean;
     getAccessToken: () => string;
     saveUser: (userData: AuthResponse) => void;
@@ -22,20 +22,21 @@ export interface ExtendedAuthContext {
     signOut: () => void;
     getParqueadero: () => parqueadero | undefined;
     createParqueadero: (newParqueadero: parqueadero) => void;
-    rol: string[]; // Add this line
+    roles: string[]; // Add this line
   }
 
 export interface User{
     _id: string;
+    name: string;
     username: string;
-    gmail: string;
-    rol: string[];
+    roles: string[];
 }
 export interface parqueadero{
     _id: string;
     nombre: string;
-    longitud: string;
-    altura:string ;
+    content: string
+    longitud: number;
+    altura: number ;
 }
 
 export interface AccessTokenResponse {

@@ -14,7 +14,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 app.set("json spaces", 4);
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 const generateTokenSecret = () => {
     return crypto.randomBytes(64).toString("hex");
@@ -26,9 +26,9 @@ process.env.REFRESH_TOKEN_SECRET = generateTokenSecret();
 async function connectToDatabase() {
     try {
         await mongoose.connect(process.env.BD_CONNECTION_STRING, {
-            // useNewUrlParser: true,  #esto son permisos de usuario a la base de datos
-            // useUnifiedTopology: true,
-            // useCreateIndex: true,
+           // useNewUrlParser: true,  
+           // useUnifiedTopology: true,
+            //useCreateIndex: true,
         });
         console.log("Connected to MongoDB ....");
     } catch (error) {
@@ -47,6 +47,8 @@ app.use("/api/todos", authenticate, require("./src/routes/todos"));
 app.use("/api/refresh-token", require("./src/routes/refreshToken"));
 app.use("/api/indexRoutes", require("./src/routes/index.routes"));
 app.use("/api/authRoutes", require("./src/routes/auth.routes"));
+app.use('/api/post', require('./src/routes/posts'));
+
 
 const checkAdmin = checkRole('administrador');
 const checkCliente = checkRole('cliente');

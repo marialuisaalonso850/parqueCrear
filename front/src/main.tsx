@@ -1,27 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Login from './routes/Login';
 import Signup from './routes/signup';
 import Dashboard from './routes/dashboard';
 import ProtectedRoute from './routes/protectedRaute';
 import { AuthProvider } from './Autenticacion/AutProvider';
-import Home from './routes/Home';
+import Home from './components/Home';
 import Perfil from './routes/perfil';
 import ContactUs from './routes/contactUs';
 import InfoParqueadero from './routes/infoParqueadero';
+import Post from './pages/post/post'
+import Posts from './pages/posts/posts';
+
+
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Login />,
   },
- 
+  
   {
     path: '/signup',
     element: <Signup />,
   },
+  
+  {
+    path: '/Posts',
+    element: <Posts />
+  },
+  {
+    path: "/Post/:id",
+    element: <Post />
+  },
+ 
   {
     path: '/Home',
     element: <Home />,
@@ -53,6 +68,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

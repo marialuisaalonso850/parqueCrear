@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { AccessTokenResponse, AuthResponse, User, parqueadero } from "../types/types";
-import { API_URL } from "../Autenticacion/constanst";
+import { API_URL } from "./constanst";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ export const AuthContext = createContext<ExtendedAuthContext>({
   signOut: () => {},
   getParqueadero: () => ({} as parqueadero | undefined),
   createParqueadero: (newParqueadero: parqueadero) => {},
-  roles: [], 
+  roles: [], // Add this line
 });
 
 interface ExtendedAuthContext {
@@ -26,8 +26,8 @@ interface ExtendedAuthContext {
   getUser: () => User | undefined;
   signOut: () => void;
   getParqueadero: () => parqueadero | undefined;
-  createParqueadero: (newParqueadero: parqueadero) => void;
-  roles: string[]; 
+  saveParqueadero: (parqueaderoData: AuthResponse) => void;
+  roles: string[]; // Add this line
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -91,11 +91,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function getParqueaderoInfo(accessToken: string) {
+    try {
+      const response = await fetch(`${API_URL}/parqueadero-info`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.ok) {
+        const json = await response.json();
+
+        if (json.error) {
+          throw new Error(json.error);
+        }
+        return json.body;
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
   async function checkAuth() {
     if (accessToken) {
       const userInfo = await getUserInfo(accessToken);
-      if (userInfo) {
+      const parqueaderoInfo = await getParqueaderoInfo(accessToken);
+      if (userInfo && parqueaderoInfo) {
         saveSessionInfo(userInfo.user, accessToken, getRefreshToken()!, userInfo.roles || []);
+        saveParqueadero(parqueaderoInfo);
         setIsLoading(false);
         return;
       }
@@ -105,8 +132,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const newAccessToken = await requestNewAccessToken(token);
         if (newAccessToken) {
           const userInfo = await getUserInfo(newAccessToken);
-          if (userInfo) {
+          const parqueaderoInfo = await getParqueaderoInfo(newAccessToken);
+          if (userInfo && parqueaderoInfo) {
             saveSessionInfo(userInfo.user, newAccessToken, token, userInfo.roles || []);
+            saveParqueadero(parqueaderoInfo);
             setIsLoading(false);
             return;
           }
@@ -120,6 +149,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setEsAutentico(false);
     setAccessToken("");
     setUser(undefined);
+    setParqueadero(undefined); // Añadido para limpiar la información del parqueadero al cerrar sesión
     localStorage.removeItem("token");
   }
 
@@ -127,9 +157,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setAccessToken(accessToken);
     localStorage.setItem('token', JSON.stringify(refreshToken));
     setEsAutentico(true);
+    setUser({ ...userInfo, roles: roles || [] });
+  }
 
-    // Modificar la línea siguiente para incluir el rol en el objeto del usuario
-    setUser({ ...userInfo, rol: roles || [] });
+  function saveParqueadero(parqueaderoData: AuthResponse) {
+    setParqueadero(parqueaderoData.body.parqueadero);
   }
 
   function getAccessToken() {
@@ -150,7 +182,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       userData.body.user,
       userData.body.accessToken,
       userData.body.refreshToken,
-      userData.body.user.rol || []
+      userData.body.user.roles || []
     );
   }
 
@@ -167,10 +199,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ esAutentico, getAccessToken, saveUser, getRefreshToken, getUser, signOut, getParqueadero }}>
+    <AuthContext.Provider value={{ esAutentico, getAccessToken, saveUser, getRefreshToken, getUser, signOut, getParqueadero, saveParqueadero }}>
       {isLoading ? <div>Cargando...</div> : children}
     </AuthContext.Provider>
   );
+
 }
 
 export const useAuth = () => useContext(AuthContext) as ExtendedAuthContext;
