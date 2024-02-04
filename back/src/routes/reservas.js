@@ -71,7 +71,7 @@ router.get("/:id", async (req, res) => {
 // Deleting a post by id
 router.delete("/:id", async (req, res) => {
   try {
-    const reserva = await Reserva.findByIdAndRemove(req.params.id);
+    const reserva = await Reserva.findOneAndDelete({_id: req.params.id});
     if (!reserva) return res.status(404).send("Post not found");
     res.send(reserva);
   } catch (error) {

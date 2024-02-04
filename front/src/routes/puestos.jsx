@@ -1,15 +1,23 @@
 
 import React, { useState } from 'react';
-import '../assets/puestos.css'; 
+import '../assets/puestos.css';
 
 const Puestos = () => {
-
   const [asientosOcupados, setAsientosOcupados] = useState(Array(10).fill(false));
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleClick = (index) => {
     const nuevosAsientosOcupados = [...asientosOcupados];
     nuevosAsientosOcupados[index] = !nuevosAsientosOcupados[index];
     setAsientosOcupados(nuevosAsientosOcupados);
+  };
+
+  const handleReservarClick = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -45,7 +53,19 @@ const Puestos = () => {
           </div>
         </div>
       </div>
-      <button className="button">Reservar Asiento</button>
+      <button  onClick={handleReservarClick}>
+        Reservar Asiento
+      </button>
+
+      {/* Modal */}
+      {modalVisible && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Felicidades, reserva exitosa</h2>
+            <button onClick={closeModal}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,24 +1,21 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from 'reactstrap';
-import axios from "axios";
+import { useNavigate, Route, Routes } from "react-router-dom";
 import config from "../../config.json";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import {
+  Button,
+} from 'reactstrap';
 import Mapa from '../../js/Mapa';
+import PortalLayout from '../../layout/PortalLayout';
 
 const Posts = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
-    // Suponiendo que tienes una forma de obtener el ID del usuario actual después de la autenticación
-    const userId = '...'; // Reemplaza con el ID de usuario real
-
-    try {
-      const res = await axios.get(`${config.apiUrl}?userId=${userId}`);
-      setPosts(res.data);
-    } catch (error) {
-      console.error("Error al obtener los mensajes:", error);
-    }
+    const res = await axios.get(config.apiUrl);
+    setPosts(res.data);
   };
 
   useEffect(() => {
@@ -31,22 +28,24 @@ const Posts = () => {
   };
 
   return (
+    
     <div className="posts">
+      <PortalLayout>
       <div className="container">
-        <Link to="/Dashboard">
+      <Link to="/Dashboard">
           <Button color="primary">Regresar</Button>
         </Link>
         <button onClick={() => navigate("/post/new")} className="btn btn-primary mb-4">
-          Nuevo parqueadero
+          nuevo parqueadero
         </button>
         <table className="table">
           <thead>
             <tr>
               <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Latitud</th>
-              <th>Longitud</th>
-              <th>Puestos</th>
+              <th>Descripcion</th>
+              <th>latitud</th>
+              <th>longitud</th>
+              <th>puestos</th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +61,7 @@ const Posts = () => {
                     onClick={() => navigate(`/post/${post._id}`)}
                     className="btn btn-primary"
                   >
-                    Actualizar
+                    Update
                   </button>
                 </td>
                 <td>
@@ -70,16 +69,20 @@ const Posts = () => {
                     onClick={() => handleDelete(post)}
                     className="btn btn-danger"
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        
+        
       </div>
-      <Mapa posts={posts} />
+      <Mapa  posts={posts} />
+      </PortalLayout>
     </div>
+
   );
 };
 

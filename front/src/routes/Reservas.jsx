@@ -6,12 +6,16 @@ import { Link } from "react-router-dom";
 import {
   Button,
 } from 'reactstrap';
-//import './Posts.css';
+import Puestos from "./puestos";
+import '../assets/Posts.css';
 
 
 const Reservas = () => {
   const navigate = useNavigate();
   const [reservas, setReservas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  
+
 
   const fetchReservas = async () => {
     const res = await axios.get(puestos.apiUrl);
@@ -22,13 +26,16 @@ const Reservas = () => {
     fetchReservas();
   }, []);
 
+
   const handleDelete = async (reserva) => {
     setReservas(reservas.filter((p) => p._id !== reserva._id));
     await axios.delete(`${puestos.apiUrl}/${reserva._id}`);
   };
 
 
- 
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <div className="posts">
@@ -37,7 +44,7 @@ const Reservas = () => {
           <Button color="primary">Regresar</Button>
         </Link>
         <button onClick={() => navigate("/reserva/new")} className="btn btn-primary mb-4">
-          nuevo parqueadero
+          nueva reserva
         </button>
         <table className="table">
           <thead>
@@ -48,6 +55,7 @@ const Reservas = () => {
               <th>año</th>
               <th>fecha</th>
               <th>hora</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -59,6 +67,7 @@ const Reservas = () => {
                 <td> {reserva.año} </td>
                 <td> {reserva.fecha} </td>
                 <td> {reserva.hora} </td>
+                
                 <td>
                   <button
                     onClick={() => navigate(`/reserva/${reserva._id}`)}
@@ -75,21 +84,29 @@ const Reservas = () => {
                     cancelar reserva
                   </button>
                 </td>
-                <td>
-                <Link to="/Puestos">
-                  <Button color="primary">reserva</Button>
-              </Link>
-                </td>
               </tr>
             ))}
           </tbody>
         
         </table>
-        
-        
+        <button onClick={toggleModal} className="btn btn-primary mb-4">
+          Reservar Asiento
+        </button>
       </div>
-      
+      {showModal && (
+        <div className="modal-container">
+          <div className="modal-content">
+            <button className="close-button" onClick={toggleModal}>
+              Close
+            </button>
+            <Puestos />
+          </div>
+        </div>
+      )}
     </div>
+        
+      
+    
   );
 };
 

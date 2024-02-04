@@ -14,6 +14,7 @@ const Reserva = () => {
       fecha: "",
       hora: "",
   });
+  const [gmail, setGmail] = useState("");
 
   useEffect(() => {
     if (!id) return;
