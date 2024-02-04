@@ -6,6 +6,7 @@ import React from "react";
 import Mapa from "../js/Mapa";
 
 
+
 interface Todo {
   _id: string,
   title: string,
@@ -90,6 +91,7 @@ export default function Dashboard(){
   
       <div>
       <Mapa />
+    
       </div>
     </PortalLayout>
   );

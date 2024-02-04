@@ -33,10 +33,11 @@ export interface User{
 }
 export interface parqueadero{
     _id: string;
-    nombre: string;
+    title: string;
     content: string
     longitud: number;
     altura: number ;
+    puestos: number,
 }
 
 export interface AccessTokenResponse {

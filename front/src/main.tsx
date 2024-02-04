@@ -14,6 +14,9 @@ import ContactUs from './routes/contactUs';
 import InfoParqueadero from './routes/infoParqueadero';
 import Post from './pages/post/post'
 import Posts from './pages/posts/posts';
+import Reserva from './routes/Reserva';
+import Reservas from './routes/Reservas';
+import Puestos from './routes/puestos';
 
 
 
@@ -35,6 +38,18 @@ const router = createBrowserRouter([
   {
     path: "/Post/:id",
     element: <Post />
+  },
+  {
+    path: '/Reservas',
+    element: <Reservas />
+  },
+  {
+    path: "/Reserva/:id",
+    element: <Reserva />
+  },
+  {
+    path: "/Puestos",
+    element: <Puestos />
   },
  
   {
@@ -74,6 +89,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      
     </AuthProvider>
   </React.StrictMode>,
 );

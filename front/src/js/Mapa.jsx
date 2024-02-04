@@ -21,7 +21,7 @@ function Mapa({ posts }) {
               <strong>Parqueadero:</strong> {post.title}
               <br />
               <strong>Dirección:</strong> {post.content}
-              <Link to='/infoParqueadero'>
+              <Link to='/Reservas'>
               <Button>Puestos</Button>
 
               </Link>

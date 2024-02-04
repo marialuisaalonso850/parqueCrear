@@ -48,6 +48,7 @@ app.use("/api/refresh-token", require("./src/routes/refreshToken"));
 app.use("/api/indexRoutes", require("./src/routes/index.routes"));
 app.use("/api/authRoutes", require("./src/routes/auth.routes"));
 app.use('/api/post', require('./src/routes/posts'));
+app.use('/api/reserva', require('./src/routes/reservas'));
 
 
 const checkAdmin = checkRole('administrador');
