@@ -417,3 +417,75 @@ form {
   object-fit: cover; /* Ajusta la imagen al círculo 
   border-radius: 50%; /* Hace que la imagen sea circular 
 }*/
+
+
+.projects{
+  padding: 8px;
+  padding: 20px;;
+}
+
+.priPro{
+  margin-bottom: 8px;
+}
+
+.selector{
+  font-size: 40px;
+  font-weight: bold;
+  color: rgba(233, 30, 99, 0.9);
+}
+
+.selectorcontect{
+  font-size: 1.25rem;
+  color: #718096;
+}
+
+.cuadros{
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cuadrosC{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+}
+
+.cuadroscontect{
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.bold{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.boldcon{
+  color: #718096;
+}
+
+.cols{
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 8px;
+}
+.colscon > * + * {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.nose{
+  width: 100%;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.contenedores{
+  font-size: 1.5rem;
+  font-weight: bold;
+}

@@ -3,6 +3,7 @@ import DefaultLayout from "../layout/DefaultLayout";
 import React , {useState, useEffect}from "react";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import TrackVisibility from 'react-on-screen';
+import { Projects } from './project';
 
 
 
@@ -79,6 +80,7 @@ export const Home = () => {
         </div>
       </div>
     </section>
+    <Projects />
     </DefaultLayout>
     </div>
   )

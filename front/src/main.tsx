@@ -9,7 +9,7 @@ import Dashboard from './routes/dashboard';
 import ProtectedRoute from './routes/protectedRaute';
 import { AuthProvider } from './Autenticacion/AutProvider';
 import Home from './components/Home';
-import Perfil from './routes/perfil';
+//import Perfil from './routes/perfil';
 import ContactUs from './routes/contactUs';
 import InfoParqueadero from './routes/infoParqueadero';
 import Post from './pages/post/post'
@@ -56,10 +56,10 @@ const router = createBrowserRouter([
     path: '/Home',
     element: <Home />,
   },
-  {
-    path: '/Perfil',
+   /* {
+  path: '/Perfil',
     element: <Perfil />,
-  },
+  },*/
   {
     path: '/infoParqueadero',
     element: <InfoParqueadero />,
