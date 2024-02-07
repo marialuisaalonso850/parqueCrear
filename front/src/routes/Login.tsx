@@ -64,7 +64,7 @@ export default function Login() {
       <div className="form-box">
         <div className="wrapper">
           <div className="img-area">
-            <img src="https://th.bing.com/th/id/OIG.ey3LOpHlbcuM8e4rTiye?pid=ImgGn" alt="imagen" /> {/* Here's the corrected line */}
+            <img src="https://i.ibb.co/1mwWC9J/5fc5c7eb-c331-4fee-825a-fdf685fcd47c.jpg" alt="imagen" /> {/* Here's the corrected line */}
           </div>
           <div className="form-area">
             <form className="form" onSubmit={handleSubmit}>

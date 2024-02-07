@@ -46,6 +46,7 @@ const Reservas = () => {
         <button onClick={() => navigate("/reserva/new")} className="btn btn-primary mb-4">
           nueva reserva
         </button>
+        
         <table className="table">
           <thead>
             <tr>

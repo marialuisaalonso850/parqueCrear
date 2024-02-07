@@ -7,7 +7,7 @@ exports.deleteToken = async (req, res) => {
         const refreshToken = getTokenFromHeader(req.headers);
 
         if (refreshToken) {
-            await Token.findOneAndRemove({ token: refreshToken });
+            await Token.findOneAndDelete({ token: refreshToken });
             res.status(200).json(jsonResponse(200, { message: 'Token eliminado exitosamente.' }));
         } else {
             res.status(400).json(jsonResponse(400, { error: 'Token no proporcionado en el encabezado.' }));

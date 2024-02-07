@@ -11,6 +11,26 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  horarios: {
+    type: String,
+    required: true,
+  },
+  tarifaCarro: {
+    type: String,
+    required: true,
+  },
+  tarifaMoto: {
+    type: String,
+    required: true,
+  },
+  telefono: {
+    type: String,
+    required: true,
+  },
+  nosotros: {
+    type: String,
+    required: true,
+  },
   longitud: { 
     type: Number,
     required: true,

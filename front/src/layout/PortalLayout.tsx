@@ -40,9 +40,11 @@ export default function PortalLayout({children}: {children:React.ReactNode}){
               </li>
               
               <li>
-                <a href="#" onClick={handleSignOut}>
+                <a href="/" onClick={handleSignOut}>
                   Salir
                 </a>
+
+               
               </li>
             </ul>
           </nav>

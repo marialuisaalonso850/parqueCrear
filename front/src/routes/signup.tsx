@@ -55,7 +55,7 @@ export default function Signup() {
       <div className="form-box">
         <div className="wrapper">
           <div className="img-area">
-            <img src="https://th.bing.com/th/id/OIG.jAhKEVcpo4C00oa3v9dj?pid=ImgGn" alt="imagen" /> {/* Here's the corrected line */}
+            <img src="https://i.ibb.co/b5JYgx6/43a26b3f-306e-467e-9bd6-b7be20f9ef82.jpg" alt="imagen" /> {/* Here's the corrected line */}
           </div>
           <div className="form-area">
             <form className="form" onSubmit={handleSubmit}>

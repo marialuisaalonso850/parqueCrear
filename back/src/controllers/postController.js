@@ -5,9 +5,15 @@ async function createPost(req, res) {
     const post = new Post({
       title: req.body.title,
       content: req.body.content,
+      horarios: req.body.horarios,
+      tarifaCarro: req.body.tarifaCarro,
+      tarifaMoto: req.body.tarifaMoto,
+      telefono: req.body.telefono,
+      nosotros: req.body.nosotros,
       longitud: req.body.longitud,
       latitud: req.body.latitud,
       puestos: req.body.puestos,
+      
     });
     await post.save();
 
@@ -36,6 +42,11 @@ async function updatePost(req, res) {
       {
         title: req.body.title, 
         content: req.body.content,
+        horarios: req.body.horarios,
+        tarifaCarro: req.body.tarifaCarro,
+        tarifaMoto: req.body.tarifaMoto,
+        telefono: req.body.telefono,
+        nosotros: req.body.nosotros,
         longitud: req.body.longitud,
         latitud: req.body.latitud,
         puestos: req.body.puestos,

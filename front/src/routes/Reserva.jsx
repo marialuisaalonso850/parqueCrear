@@ -2,19 +2,20 @@ import puestos from "../puestos.json";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-//import './Post.css';
+import '../assets/Reserva.css'; 
+
 const Reserva = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [reserva, setReserva] = useState({
     nombre: "",
-      telefono: 0,
+      telefono: "",
       vehiculo: "",
-      año: 0,
+      año: "",
       fecha: "",
       hora: "",
   });
-  const [gmail, setGmail] = useState("");
+  
 
   useEffect(() => {
     if (!id) return;
@@ -33,17 +34,27 @@ const Reserva = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(id); 
     if (id === "new") {
       await axios.post(puestos.apiUrl, reserva);
-      return navigate("/Reservas");
+      return navigate("/reservas");
     } else {
       await axios.put(`${puestos.apiUrl}/${id}`, reserva);
-      return navigate("/Reservas");
+      return navigate("/reservas");
     }
   };
   return (
     <div className="post__wrapper">
       <div className="container">
+      <div className="post-container">
+          <div className="post-image">
+            {/* Add your image source and styling here */}
+            <img
+              src="https://i.pinimg.com/736x/8f/9f/24/8f9f249794532398106f198c6e4f87f8.jpg"
+              alt="Post Image"
+              className="image"
+            />
+            </div>
         <form className="post">
           <input
             type="text"
@@ -91,6 +102,7 @@ const Reserva = () => {
             {id === "new" ? "agregar" : "Update"}
           </button>
         </form>
+        </div>
       </div>
     </div>
   );
