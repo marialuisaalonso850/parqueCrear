@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import axios from "axios";
 import config from "../../config.json";
-import Mapa from '../../js/Mapa';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import "../../assets/Posts.css";
+import Mapa from "../../js/Mapa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../assets/posts.css";
+import PortalLayout from "../../layout/PortalLayout";
 
 const Posts = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPuestos, setSelectedPuestos] = useState(0);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [buttonStates, setButtonStates] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPuestos, setSelectedPuestos] = useState();
-  const [selectedDate, setSelectedDate] = useState(null); // Estado para la fecha seleccionada
-  const [selectedParkingSpot, setSelectedParkingSpot] = useState(null); // Estado para el puesto de estacionamiento seleccionado
-  const [avail, setAvail] = useState(true)
-  const [parkingSpotStates, setParkingSpotStates] = useState([]);
-
 
   const fetchPosts = async () => {
-    const userId = '...';
+    const userId = "...";
 
     try {
       const res = await axios.get(`${config.apiUrl}?userId=${userId}`);
       setPosts(res.data);
+      if (res.data.length > 0) {
+        setSelectedPuestos(res.data[0].puestos);
+      }
     } catch (error) {
       console.error("Error al obtener los mensajes:", error);
     }
@@ -35,52 +35,60 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
-  const handleState = (index) => {
-    const updatedStates = [...parkingSpotStates];
-    updatedStates[index] = !updatedStates[index];
-    setParkingSpotStates(updatedStates);
+  const handleButtonClick = (index) => {
+    setButtonStates((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
+  const renderButtons = () => {
+    const buttons = [];
+
+    for (let i = 1; i <= selectedPuestos; i++) {
+      buttons.push(
+        <div key={i}>
+          <img
+            src="https://png.pngtree.com/png-clipart/20190116/ourlarge/pngtree-blue-car-high-end-car-beautiful-car-imported-car-png-image_405751.jpg"
+            alt={`Puesto ${i}`}
+            style={{
+              width: "100px",
+              height: "100px",
+              marginBottom: "5px",
+              cursor: "pointer",
+            }}
+          />
+          <button
+            onClick={() => handleButtonClick(i)}
+            style={{ display: "block", margin: "auto" }}
+          >
+            {buttonStates[i] ? "Ocupado" : "Disponible"}
+          </button>
+        </div>
+      );
+    }
+
+    return buttons;
   };
 
   const handleReservaClick = async (post) => {
     setSelectedPost(post);
-    setSelectedPuestos(post.puestos); // Establece el número de puestos para el parqueadero seleccionado
-    toggleModal();
+    setSelectedPuestos(post.puestos);
+    setModalOpen(true); // Abrir el modal al hacer clic en "Reserva"
   };
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-  const handleParkingSpotClick = (index) => {
-    setSelectedParkingSpot(index); // Establece el puesto de estacionamiento seleccionado
-  };
-
-  const handleDateChange = (date) => { // Función para manejar el cambio de fecha
+  const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   const handleReservation = () => {
-    
-    const updatedPosts = posts.map((post, index) => {
-      if (index === selectedPostIndex) {
-        const updatedPuestos = post.puestos.map((puesto, i) => {
-          if (i === selectedParkingSpot) {
-            return 'ocupado';
-          } else {
-            return puesto;
-          }
-        });
-        return { ...post, puestos: updatedPuestos };
-      } else {
-        return post;
-      }
-    });
-    setPosts(updatedPosts);
-    toggleModal();
+    // Aquí iría la lógica para realizar la reserva
+    setModalOpen(false); // Cerrar el modal después de la reserva
   };
 
   return (
     <div className="posts">
+      <PortalLayout>
       <Mapa posts={posts} />
       <div className="container">
         <h2>Crear Parqueaderos</h2>
@@ -104,7 +112,7 @@ const Posts = () => {
                 <td> {post.content} </td>
                 <td> {post.latitud} </td>
                 <td> {post.longitud} </td>
-                <td> {post.puestos} </td> {/* Muestra directamente el número de puestos */}
+                <td> {post.puestos} </td>
                 <td>
                   <button
                     onClick={() => navigate(`/post/${post._id}`)}
@@ -122,60 +130,49 @@ const Posts = () => {
                   </button>
                 </td>
                 <td>
-                  <Button onClick={() => handleReservaClick(post)}>Puestos</Button>
+                  <button onClick={() => handleReservaClick(post)}>
+                    Puestos
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         <Link to="/Dashboard">
-          <Button color="primary">Regresar</Button>
+          <button>Regresar</button>
         </Link>
-        <button onClick={() => navigate("/post/new")} className="btn btn-primary mb-4">
+        <button onClick={() => navigate("/post/new")}>
           Nuevo parqueadero
         </button>
       </div>
 
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Puestos del Parqueadero</ModalHeader>
-        <ModalBody>
-          <h2>Estado de los Puestos:</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {selectedPuestos && Array.from({ length: selectedPuestos }).map((_, index) => (
-              <div key={index} style={{ marginRight: '20px', marginBottom: '20px' }}>
-                
-                <img
-                  src="https://png.pngtree.com/png-clipart/20190116/ourlarge/pngtree-blue-car-high-end-car-beautiful-car-imported-car-png-image_405751.jpg" // URL de la imagen externa
-                  alt={`Puesto ${index + 1}`}
-                  style={{ width: '100px', height: '100px', marginBottom: '5px', cursor: 'pointer' }} // Estilos opcionales
-                  onClick={() => handleParkingSpotClick(index)} // Manejar el clic en el puesto de estacionamiento
-                />
-
-
-                <button onClick={handleState}>
-                  {avail ? 'Disponible' : 'Ocupado'}
-                </button>
-              </div>
-            ))}
+      {modalOpen && (
+        <div className="modal-background">
+          <div className="modal">
+            <button onClick={() => setModalOpen(false)}>Cerrar</button>
+            <h2>Estado de los Puestos:</h2>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {renderButtons()}
+            </div>
+            <div>
+              <h3>Selecciona una fecha y hora:</h3>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy h:mm aa"
+              />
+              <button onClick={handleReservation}>
+                Seleccionar fecha y hora
+              </button>
+            </div>
+            <Link to="/Reservas">
+              <button>Reserva</button>
+            </Link>
           </div>
-          <div>
-            <h3>Selecciona una fecha y hora:</h3>
-            <DatePicker
-              selected={selectedDate}
-              onChange={handleDateChange}
-              showTimeSelect
-              dateFormat="MMMM d, yyyy h:mm aa"
-            />
-            <button>seleccionar fecha y hora</button>
-          </div>
-          <Link to="/Reservas">
-                  <Button >Reserva</Button>
-              </Link>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggleModal}>Cerrar</Button>
-        </ModalFooter>
-      </Modal>
+        </div>
+      )}
+      </PortalLayout>
     </div>
   );
 };

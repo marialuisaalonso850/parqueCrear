@@ -1,4 +1,6 @@
-
+*{
+  padding: 5px;
+}
 
 /*home*/
 .banner {
@@ -217,6 +219,10 @@ button {
     height: 10vh;
     position: relative;
     z-index: 50;
+}
+
+.map{
+  padding: 24px 0 20px 0;
 }
 
 .container-pri{

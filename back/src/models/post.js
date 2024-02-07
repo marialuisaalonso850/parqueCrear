@@ -1,28 +1,12 @@
 
 const mongoose = require("mongoose");
-
 const postSchema = new mongoose.Schema({
  
-  title: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  horarios: {
-    type: String,
-    required: true,
-  },
-  tarifaCarro: {
-    type: String,
-    required: true,
-  },
-  tarifaMoto: {
-    type: String,
-    required: true,
-  },
+  title: { type: String, required: true,},
+  content: {type: String, required: true,},
+  horarios: { type: String, required: true,},
+  tarifaCarro: { type: String, required: true, },
+  tarifaMoto: { type: String, required: true,},
   telefono: {
     type: String,
     required: true,

@@ -58,7 +58,7 @@ const Dashboard = () => {
                 <td>
                   <Link to= '/Posts 'className="btn btn-primary">
 
-                      Selec puesto
+                      puesto
                     </Link>
                 </td>
                 </tr>

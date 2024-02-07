@@ -26,8 +26,13 @@ export default function PortalLayout({children}: {children:React.ReactNode}){
 
     return (
         <>
-        <header>
-          <nav>
+        <header className="principal">
+            <div className="container-pri">
+              <Link to="/" className="inicio">
+                Parking<span className="span">Location.</span>{" "}
+              </Link>
+            </div>
+            <nav>
             <ul>
               <li>
                 <Link to="/Perfil">Perfil</Link>
@@ -48,7 +53,7 @@ export default function PortalLayout({children}: {children:React.ReactNode}){
               </li>
             </ul>
           </nav>
-        </header>
+          </header>
   
         <main>{children}</main>
       </>
